@@ -1,2 +1,10 @@
-# receitaws
-Treinamento com Eduardo para consumo de API Receita Federal
+<div align="center">
+https://img.shields.io/cirrus/github/joaopaulobuen/receitaws/main?label=Status
+</div>
+
+🚀 Começando
+
+
+✒️ Autores
+- João Paulo Bueno
+- Eduardo Teixeira

@@ -1,13 +1,20 @@
 package br.com.civitt.receita.main;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.google.gson.Gson;
 
+
+import br.com.civitt.connection.ConexaoBancoDados;
 import br.com.civitt.receita.models.AtributosReceita;
 import br.com.civitt.util.Util;
 
@@ -22,7 +29,7 @@ public class Main {
 	static int codigoSucesso = 200;
 	static String statusError = "ERROR";
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, SQLException {
 
 		//Chamar método aqui para que o algorítimo faça alguma coisa
 		
@@ -33,12 +40,26 @@ public class Main {
 		 * */
 		
 		//Variavel que receberá os CNPJ's a serem consultados
-		cnpj = "1237816237";
+		//cnpj = "1237816237";
 		
 		//Método para consultar CNPJ
-		ConsultaCnpj(cnpj);
+		//ConsultaCnpj(cnpj);
 		
-		
+		ConexaoBancoDados con = new ConexaoBancoDados();
+		Connection conexao = con.conexaoBanco();
+		Statement statement = conexao.createStatement();
+		String query = "SELECT CGC_CPF 		  "
+					 + "  FROM TGFPAR  		  "
+					 + " WHERE ATIVO = 'S' 	  "
+					 + "   AND ROWNUM <= 50   "
+					 + "   AND TIPPESSOA = 'J'";
+
+        ResultSet resultSet = statement.executeQuery(query);
+        
+        while (resultSet.next()) {
+			ConsultaCnpj(resultSet.getString("CGC_CPF"));
+        	System.out.println("----------------------------------------------------------------");
+		}
 		
 	}
 	
